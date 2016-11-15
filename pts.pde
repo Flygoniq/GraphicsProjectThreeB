@@ -1,6 +1,7 @@
 pts P = new pts(); // polyloop in 3D
 pts Q = new pts(); // second polyloop in 3D
 pts PtQ = new pts(); // inbetweening polyloop L(P,t,Q);
+pts path = new pts();
 
 class pts // class for manipulaitng and displaying pointclouds or polyloops in 3D 
   { 
@@ -94,7 +95,7 @@ class pts // class for manipulaitng and displaying pointclouds or polyloops in 3
     String [] ss = loadStrings(fn);
     String subpts;
     int s=0;   int comma, comma1, comma2;   float x, y;   int a, b, c;
-    nv = int(ss[s++]); print("nv="+nv);
+    nv = int(ss[s++]); println("nv="+nv);
     for(int k=0; k<nv; k++) {int i=k+s; float [] xy = float(split(ss[i],",")); G[k].setTo(xy[0],xy[1],xy[2]);}
     pv=0;
     }; 

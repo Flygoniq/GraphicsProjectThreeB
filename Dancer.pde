@@ -11,8 +11,17 @@ float midHeight = 20, torsoHeight = 40, upperArmLength = 60, lowerArmLength = 50
 
 void showDancer(pt LeftFoot, float transfer, pt RightFoot, vec Forward)
   {
+<<<<<<< HEAD
 
   vec Dummy = V(0, 0, 0);
+=======
+  float footRadius=3, kneeRadius = 6,  hipRadius=15 ; // radius of foot, knee, hip
+  float hipSpread = hipRadius; // half-displacement between hips
+  float bodyHeight = 100; // height of body center B
+  float ankleBackward=10, ankleInward=4, ankleUp=6, ankleRadius=4; // ankle position with respect to footFront and size
+  float pelvisHeight=10, pelvisForward=hipRadius/2, pelvisRadius=hipRadius*1.3; // vertical distance form BodyCenter to Pelvis 
+  float LeftKneeForward = 20; // arbitrary knee offset for mid (B,H)
+>>>>>>> origin/master
   vec Up = V(0,0,1); // up vector
   
   vec Right = N(Up,Forward); // side vector pointing towards the right
@@ -26,7 +35,7 @@ void showDancer(pt LeftFoot, float transfer, pt RightFoot, vec Forward)
   pt BodyProjection = L(LeftFoot,1./3+transfer/3,RightFoot); // floor projection of B
   pt BodyCenter = P(BodyProjection,bodyHeight,Up); // Body center
   fill(blue); showShadow(BodyCenter,5); // sphere(BodyCenter,hipRadius);
-  //fill(blue); arrow(BodyCenter,V(100,Forward),5); // forward arrow
+  fill(blue); arrow(BodyCenter,V(100,Forward),5); // forward arrow
 
   // HIPS
   pt RightHip =  P(BodyCenter,hipSpread,Right);
