@@ -25,6 +25,9 @@ void keyPressed()
   if(key=='#') exit();
   if(key=='b')solidBalls=!solidBalls;
   if(key=='=') {}
+  if(key=='o') {
+    P.copyFrom(path);
+  }
   change=true;   // to save a frame for the movie when user pressed a key 
   }
 

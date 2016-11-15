@@ -8,9 +8,10 @@ void setup() {
   myFace = loadImage("data/pic.jpg");  // load image from file pic.jpg in folder data *** replace that file with your pic of your own face
   textureMode(NORMAL);          
   size(700, 700, P3D); // P3D means that we will do 3D graphics
-  P.declare(); Q.declare(); PtQ.declare(); // P is a polyloop in 3D: declared in pts
+  P.declare(); Q.declare(); PtQ.declare(); path.declare(); // P is a polyloop in 3D: declared in pts
   // P.resetOnCircle(3,100); Q.copyFrom(P); // use this to get started if no model exists on file: move points, save to file, comment this line
   P.loadPts("data/pts");  Q.loadPts("data/pts2"); // loads saved models from file (comment out if they do not exist yet)
+  path.loadPts("data/dance path");
   noSmooth();
   frameRate(30);
   support = P.Pt(0);
@@ -22,6 +23,7 @@ void setup() {
   free = P(origin, -18, R(front));
   freemem = P(origin, -18, R(front));
   support = P(target, 18, R(front));
+  println(d(P.Pt(0), P.Pt(1)));
   }
 
 void draw() {
@@ -43,33 +45,45 @@ void draw() {
   
   if (animating) {
     if (t < 35) {//transfer
-      showDancer(free, t / 105 + 1/3, support, front);
+      showDancer(free, t / 35 + 1/3, support, front);
     }
     else if (t < 70) {//collect
       free = P(freemem, (t - 35) / 35, V(freemem, target));
-      showDancer(free, t / 105 + 1/3, support, front);
+      showDancer(free, t / 35 + 1/3, support, front);
     }
     else if (t < 85) {//rotate
       showDancer(free, 0, support, front);
       front = R(front, angleChange, front, R(front)); //use angleChange in second argument
-      println("x: " + front.x + " y: " + front.y);
     }
     else if (t < 120) {//aim
-      
+      free = P(freemem, (t - 85) / 35, V(freemem, target));
+      showDancer(free, 0, support, front);
     }
-    if (t < 120) {
-      //println(t);
-      t++;
+    else {
+      showDancer(free, 0, support, front);
     }
+    t++;
     if (t == 70) {
       origin = target;
       target = P(P.Pt(2));
       vec newFront = V(origin, target);
       angleChange = angle(front, newFront) / 15;
-      println(angleChange);
     }
     if (t == 85) {
-      free = P(target, -18, R(front));
+      //free = P(target, -18, R(front));
+      freemem = P(free);
+    }
+    if (t == 150) {
+      t = 0;
+      support = P.Pt(0);
+      target = P(support.x, support.y, support.z);
+  
+      free = P.Pt(1);
+      origin = P(free.x, free.y, free.z);
+      front = V(P(free.x, free.y, free.z), P(support.x, support.y, support.z)).normalize();
+      free = P(origin, -18, R(front));
+      freemem = P(origin, -18, R(front));
+      support = P(target, 18, R(front));
     }
     
   }

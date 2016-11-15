@@ -24,7 +24,7 @@ void showDancer(pt LeftFoot, float transfer, pt RightFoot, vec Forward)
   pt BodyProjection = L(LeftFoot,1./3+transfer/3,RightFoot); // floor projection of B
   pt BodyCenter = P(BodyProjection,bodyHeight,Up); // Body center
   fill(blue); showShadow(BodyCenter,5); // sphere(BodyCenter,hipRadius);
-  //fill(blue); arrow(BodyCenter,V(100,Forward),5); // forward arrow
+  fill(blue); arrow(BodyCenter,V(100,Forward),5); // forward arrow
 
   // HIPS
   pt RightHip =  P(BodyCenter,hipSpread,Right);
