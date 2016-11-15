@@ -159,3 +159,8 @@ void show(pt P, String s) {text(s, P.x, P.y, P.z); }; // prints string s in 3D a
 void show(pt P, String s, vec D) {text(s, P.x+D.x, P.y+D.y, P.z+D.z);  }; // prints string s in 3D at P+D (offset vector)
 void show(pt P, float r) {pushMatrix(); translate(P.x,P.y,P.z); sphere(r); popMatrix();};                          // render sphere of radius r and center P
 void showShadow(pt P, float r) {pushMatrix(); translate(P.x,P.y,0); scale(1,1,0.01); sphere(r); popMatrix();}      // render shadow on the floot of sphere of radius r and center P
+
+
+pt N(float a, pt A, float b, pt B, float t) {return P((b-t)/(b-a)*A.x+(t-a)/(b-a)*B.x,(b-t)/(b-a)*A.y+(t-a)/(b-a)*B.y);  } 
+pt N(float a, pt A, float b, pt B, float c, pt C, float t) {pt P = N(a,A,b,B,t), Q = N(b,B,c,C,t); return N(a,P,c,Q,t);}
+pt N(float a, pt A, float b, pt B, float c, pt C, float d, pt D, float t) {pt P = N(a,A,b,B,c,C,t), Q = N(b,B,c,C,d,D,t); return N(a,P,d,Q,t);}

@@ -27,6 +27,25 @@ void keyPressed()
   if(key=='=') {}
   if(key=='o') {
     P.copyFrom(path);
+    stageTwo=true;
+    a = 11;
+    b = 0;
+    c = 1;
+    A = P.G[a];
+    B = P.G[b];
+    C = P.G[c];
+    d = P.L[c];
+    left = P(B);
+    right = P(A);
+    memory = P(A);
+    origin = P(right);
+    target = P(left);
+    front = V(origin, target).normalize();
+    right = P(origin, 18, R(front));
+    memory = P(origin, 18, R(front));
+    left = P(target, -18, R(front));
+    angleChange = angle(V(B,A),V(B,C)) / maxf;
+    t = 0;
   }
   change=true;   // to save a frame for the movie when user pressed a key 
   }

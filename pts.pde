@@ -5,13 +5,14 @@ pts path = new pts();
 
 class pts // class for manipulaitng and displaying pointclouds or polyloops in 3D 
   { 
-    int maxnv = 16000;                 //  max number of vertices
+    int maxnv = 160;                 //  max number of vertices
     pt[] G = new pt [maxnv];           // geometry table (vertices)
     Boolean loop=true;          // used to indicate closed loop 3D control polygons
     int pv =0,     // picked vertex index,
         iv=0,      //  insertion vertex index
         nv = 0,    // number of vertices currently used in P
         pp=1; // index of picked vertex
+    char[] L = new char [maxnv];             // labels of points
 
   pts() {}
   pts declare() {for (int i=0; i<maxnv; i++) G[i]=P(); return this;}     // init all point objects
@@ -79,6 +80,22 @@ class pts // class for manipulaitng and displaying pointclouds or polyloops in 3
   pt Picked() {return G[pv];} 
   pt Pt(int i) {if(0<=i && i<nv) return G[i]; else return G[0];} 
 
+  void resetLabels() 
+    {
+    for (int i=0; i<maxnv; i++) 
+      {
+      if(i%6==0) L[i]='f';
+      if(i%6==1) L[i]='f';
+      if(i%6==2) L[i]='f';
+      if(i%6==3) L[i]='s';
+      if(i%6==4) L[i]='b';
+      if(i%6==5) L[i]='f';
+      }
+    }    
+  void setPicekdLabel(char c) {L[pv]=c;}
+  void next() {pv=n(pv);}
+
+
   // ********* I/O FILE *******  
   void savePts(String fn) 
     {
@@ -101,3 +118,5 @@ class pts // class for manipulaitng and displaying pointclouds or polyloops in 3
     }; 
 
 } // end of pts class
+  int n(int v) {return (v+1)%P.nv;}
+  int p(int v) {if(v==0) return P.nv-1; else return v-1;}

@@ -1,9 +1,12 @@
 //  ******************* Tango dancer 3D 2016 ***********************
-Boolean animating=true, PickedFocus=false, center=true, showViewer=false, showBalls=false, showCone=true, showCaplet=true, showImproved=true, solidBalls=false;
-float t=0, s=0, angleChange;
+Boolean animating=true, stageTwo=false, PickedFocus=false, center=true, showViewer=false, showBalls=false, showCone=true, showCaplet=true, showImproved=true, solidBalls=false;
+float t=0, s=0, f=0, maxf=4*30, angleChange;
 pt origin, target; //origin is the point behind the dancer, target is where the dancer is going
-pt support, free, freemem;
+pt right, left, memory;
 vec front;
+pt A, B, C;
+int a, b, c;
+char d;
 void setup() {
   myFace = loadImage("data/pic.jpg");  // load image from file pic.jpg in folder data *** replace that file with your pic of your own face
   textureMode(NORMAL);          
@@ -14,53 +17,104 @@ void setup() {
   path.loadPts("data/dance path");
   noSmooth();
   frameRate(30);
-  support = P.Pt(0);
-  target = P(support.x, support.y, support.z);
+  right = P.Pt(1);
+  target = P(right.x, right.y, right.z);
   
-  free = P.Pt(1);
-  origin = P(free.x, free.y, free.z);
-  front = V(P(free.x, free.y, free.z), P(support.x, support.y, support.z)).normalize();
-  free = P(origin, -18, R(front));
-  freemem = P(origin, -18, R(front));
-  support = P(target, 18, R(front));
-  println(d(P.Pt(0), P.Pt(1)));
+  left = P.Pt(0);
+  origin = P(left.x, left.y, left.z);
+  front = V(P(left.x, left.y, left.z), P(right.x, right.y, right.z)).normalize();
+  left = P(origin, -18, R(front));
+  memory = P(origin, -18, R(front));
+  right = P(target, 18, R(front));
   }
 
 void draw() {
   background(255);
   pushMatrix();   // to ensure that we can restore the standard view before writing on the canvas
   setView();  // see pick tab
-  showFloor(); // draws dance floor as yellow mat
+  showFloor(); // draws dance floor
   doPick(); // sets point Of and picks closest vertex to it in P (see pick Tab)
    
-  // Footprints shown as reg, green, blue disks on the floor 
-  pt A = P.Pt(0), B = P.Pt(1), C = P.Pt(2); //pt A is where the left foot starts, B is where the right foot starts, C is free
-  fill(grey);  showShadow(A,20);  showShadow(B,14); showShadow(C,8);
+  // Steps shown as reg, green, blue disks on the floor 
+  //pt A = P.Pt(0), B = P.Pt(1), C = P.Pt(2); //pt A is where the left foot starts, B is where the right foot starts, C is free
+  //fill(grey);  showShadow(A,8);  showShadow(B,8); showShadow(C,8);
+  fill(grey);
+  for (int i = 0; i < P.nv; i++) {
+    showShadow(P.Pt(i), 8);
+  }
 
   //vec ForwardDirection = V(1,0,0);
   //front = V(origin, target).normalize();
   
   // Footprints shown as reg, green, blue disks on the floor
-  if (!animating) showDancer(support, s, free, front);  // THIS CALLS YOUR CODE IN TAB "Dancer"
   
-  if (animating) {
+  if (stageTwo) {
+    f++; if (f>maxf) {
+      P.next();
+      animating=true;
+      f=0;
+      A = P(B);
+      B = P.Pt(P.pv);
+      C = P.Pt(n(P.pv));
+      angleChange = angle(V(B,A),V(B,C)) / maxf;
+      if (P.pv % 2 == 1) angleChange = -1 * angleChange;
+      println(angleChange);
+    }
+    t=(1.-cos(PI*f/maxf))/2;
+    
+    if(P.pv%2 == 0) {
+      left = B;
+      float angle = angle(V(B, A), V(B, C));
+      vec V = R (V(B,C), angle, front, R(front));
+      pt F1 = P(B, -15, U(V));
+      pt F2 = P(B, 15, U(R(V(B,C))));
+      if (d == 'b') {
+        F2 = P(B, -15, U(R(V(B,C))));
+      } else if (d == 's') {
+        F2 = P(B, 15, U(V(B, C))); 
+      }
+      right = N(0, A, .45, F1, .55, F2, 1, C, t);
+      float X = .5 + ((1/3) * abs(t - .5));
+      showDancer(left, X, right, front);
+      front = R(front, angleChange, front, R(front));
+    } else {
+      right = B;
+      float angle = angle(V(B, A), V(B, C));
+      vec V = R (V(B,C), angle, front, R(front));
+      pt F1 = P(B, 15, U(V));
+      pt F2 = P(B, -15, U(R(V(B,C))));
+      if (d == 'b') {
+        F2 = P(B, 15, U(R(V(B,C))));
+      } else if (d == 's') {
+        F2 = P(B, 15, U(V(B, C))); 
+      }
+      left = N(0, A, .45, F1, .55, F2, 1, C, t);
+      float X = .5 + ((1/3) * abs(t - .5));
+      showDancer(left, X, right, front);
+      front = R(front, angleChange, front, R(front));
+    }
+  }
+  
+  if (!stageTwo && !animating) showDancer(right, s, left, front);  // THIS CALLS YOUR CODE IN TAB "Dancer"
+  
+  if (!stageTwo && animating) {
     if (t < 35) {//transfer
-      showDancer(free, t / 35 + 1/3, support, front);
+      showDancer(left, t / 35 + 1/3, right, front);
     }
     else if (t < 70) {//collect
-      free = P(freemem, (t - 35) / 35, V(freemem, target));
-      showDancer(free, t / 35 + 1/3, support, front);
+      left = P(memory, (t - 35) / 35, V(memory, target));
+      showDancer(left, t / 35 + 1/3, right, front);
     }
     else if (t < 85) {//rotate
-      showDancer(free, 0, support, front);
+      showDancer(left, 0, right, front);
       front = R(front, angleChange, front, R(front)); //use angleChange in second argument
     }
     else if (t < 120) {//aim
-      free = P(freemem, (t - 85) / 35, V(freemem, target));
-      showDancer(free, 0, support, front);
+      left = P(memory, (t - 85) / 35, V(memory, target));
+      showDancer(left, 0, right, front);
     }
     else {
-      showDancer(free, 0, support, front);
+      showDancer(left, 0, right, front);
     }
     t++;
     if (t == 70) {
@@ -71,19 +125,19 @@ void draw() {
     }
     if (t == 85) {
       //free = P(target, -18, R(front));
-      freemem = P(free);
+      memory = P(left);
     }
     if (t == 150) {
       t = 0;
-      support = P.Pt(0);
-      target = P(support.x, support.y, support.z);
+      right = P.Pt(1);
+      target = P(right.x, right.y, right.z);
   
-      free = P.Pt(1);
-      origin = P(free.x, free.y, free.z);
-      front = V(P(free.x, free.y, free.z), P(support.x, support.y, support.z)).normalize();
-      free = P(origin, -18, R(front));
-      freemem = P(origin, -18, R(front));
-      support = P(target, 18, R(front));
+      left = P.Pt(0);
+      origin = P(left.x, left.y, left.z);
+      front = V(P(left.x, left.y, left.z), P(right.x, right.y, right.z)).normalize();
+      left = P(origin, -18, R(front));
+      memory = P(origin, -18, R(front));
+      right = P(target, 18, R(front));
     }
     
   }
