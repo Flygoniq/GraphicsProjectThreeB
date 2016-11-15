@@ -3,7 +3,7 @@
 
 void showDancer(pt LeftFoot, float transfer, pt RightFoot, vec Forward)
   {
-  float footRadius=3, kneeRadius = 6,  hipRadius=12 ; // radius of foot, knee, hip
+  float footRadius=3, kneeRadius = 6,  hipRadius=30 ; // radius of foot, knee, hip
   float hipSpread = hipRadius; // half-displacement between hips
   float bodyHeight = 100; // height of body center B
   float ankleBackward=10, ankleInward=4, ankleUp=6, ankleRadius=4; // ankle position with respect to footFront and size
@@ -72,5 +72,12 @@ void showDancer(pt LeftFoot, float transfer, pt RightFoot, vec Forward)
   }
   
 void capletSection(pt A, float a, pt B, float b) { // cone section surface that is tangent to Sphere(A,a) and to Sphere(B,b)
-  coneSection(A,B,a,b);
-  }  
+  float d = d(A, B); //d is the distance between A and B
+  float x = (sq(a) - (b * a)) / d;
+  float y = sqrt(sq(a) - sq(x));
+  pt H = P(A, x / d, V(A, B));
+  float ox = (sq(b) - (b * a)) / d;
+  float oy = sqrt(sq(b) - sq(ox));
+  pt OH = P(B, ox / d, V(B, A));
+  coneSection(H,OH,y,oy);
+}
