@@ -3,7 +3,7 @@
 
 void showDancer(pt LeftFoot, float transfer, pt RightFoot, vec Forward)
   {
-  float footRadius=3, kneeRadius = 6,  hipRadius=30 ; // radius of foot, knee, hip
+  float footRadius=3, kneeRadius = 6,  hipRadius=15 ; // radius of foot, knee, hip
   float hipSpread = hipRadius; // half-displacement between hips
   float bodyHeight = 100; // height of body center B
   float ankleBackward=10, ankleInward=4, ankleUp=6, ankleRadius=4; // ankle position with respect to footFront and size
