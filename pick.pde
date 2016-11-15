@@ -101,8 +101,33 @@ public pt pick(float mX, float mY, float mZ) {
     }
  
   void showFloor() 
-    {
-    fill(yellow); pushMatrix(); translate(0,0,-1.5); box(400,400,1); popMatrix(); // draws floor as thin plate
+    { 
+    pushMatrix(); 
+    translate(0,0,-1.5);
+    fill(black);    
+    
+    pushMatrix();
+    translate(-250, -250, 0);
+    box(500, 500, 1);
+    popMatrix();
+    
+    pushMatrix();
+    translate(250, 250, 0);
+    box(500, 500, 1);
+    popMatrix();
+    
+    fill(red);
+    pushMatrix();
+    translate(-250, 250, 0);
+    box(500, 500, 1);
+    popMatrix();
+    
+    pushMatrix();
+    translate(250, -250, 0);
+    box(500, 500, 1);
+    popMatrix();
+    
+    popMatrix(); // draws floor as thin plate
     }
     
   void doPick()
