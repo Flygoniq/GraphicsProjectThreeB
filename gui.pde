@@ -25,6 +25,8 @@ void keyPressed()
   if(key=='#') exit();
   if(key=='b')solidBalls=!solidBalls;
   if(key=='=') {}
+  if(key=='h') hipRadius = 30;
+  if(key=='j') hipRadius = 10;
   if(key=='o') {
     P.copyFrom(path);
     stageTwo=true;
