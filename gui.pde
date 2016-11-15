@@ -16,8 +16,8 @@ void keyPressed()
   if(key=='x' || key=='z' || key=='d') P.setPicked(); // picks the vertex of P that has closest projeciton to mouse
   if(key=='d') P.deletePicked();
   if(key=='i') P.insertClosestProjection(Of); // Inserts new vertex in P that is the closeset projection of O
-  if(key=='W') {P.savePts("data/pts"); Q.savePts("data/pts2");}  // save vertices to pts2
-  if(key=='L') {P.loadPts("data/pts"); Q.loadPts("data/pts2");}   // loads saved model
+  if(key=='W') {P.savePts("data/pts"); Q.savePts("data/pts2"); path.savePts("data/dance path");}  // save vertices to pts2
+  if(key=='L') {P.loadPts("data/pts"); Q.loadPts("data/pts2"); path.loadPts("data/dance path");}   // loads saved model
   if(key=='w') P.savePts("data/pts");   // save vertices to pts
   if(key=='l') P.loadPts("data/pts"); 
   if(key=='a') animating=!animating; // toggle animation
@@ -26,6 +26,7 @@ void keyPressed()
   if(key=='b')solidBalls=!solidBalls;
   if(key=='=') {}
   if(key=='o') {
+    hipRadius = 10;
     P.copyFrom(path);
     stageTwo=true;
     a = 11;
