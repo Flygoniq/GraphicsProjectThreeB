@@ -1,5 +1,5 @@
 //  ******************* Tango dancer 3D 2016 ***********************
-Boolean animating=true, stageTwo=false, PickedFocus=false, center=true, showViewer=false, showBalls=false, showCone=true, showCaplet=true, showImproved=true, solidBalls=false;
+Boolean animating=false, stageTwo=false, PickedFocus=false, center=true, showViewer=false, showBalls=false, showCone=true, showCaplet=true, showImproved=true, solidBalls=false;
 float t=0, s=0, f=0, maxf=4*30, angleChange;
 pt origin, target; //origin is the point behind the dancer, target is where the dancer is going
 pt right, left, memory;
@@ -10,7 +10,7 @@ char d;
 void setup() {
   myFace = loadImage("data/pic.jpg");  // load image from file pic.jpg in folder data *** replace that file with your pic of your own face
   textureMode(NORMAL);          
-  size(700, 700, P3D); // P3D means that we will do 3D graphics
+  size(1000, 1000, P3D); // P3D means that we will do 3D graphics
   P.declare(); Q.declare(); PtQ.declare(); path.declare(); // P is a polyloop in 3D: declared in pts
   // P.resetOnCircle(3,100); Q.copyFrom(P); // use this to get started if no model exists on file: move points, save to file, comment this line
   P.loadPts("data/pts");  Q.loadPts("data/pts2"); // loads saved models from file (comment out if they do not exist yet)
@@ -75,7 +75,7 @@ void draw() {
       }
       right = N(0, A, .45, F1, .55, F2, 1, C, t);
       float X = .5 + ((1/3) * abs(t - .5));
-      showDancer(left, X, right, front);
+      showDancer(left, X, right, front, stageTwo);
       front = R(front, angleChange, front, R(front));
     } else {
       right = B;
@@ -90,31 +90,31 @@ void draw() {
       }
       left = N(0, A, .45, F1, .55, F2, 1, C, t);
       float X = .5 + ((1/3) * abs(t - .5));
-      showDancer(left, X, right, front);
+      showDancer(left, X, right, front, stageTwo);
       front = R(front, angleChange, front, R(front));
     }
   }
   
-  if (!stageTwo && !animating) showDancer(right, s, left, front);  // THIS CALLS YOUR CODE IN TAB "Dancer"
+  if (!stageTwo && !animating) showDancer(right, s, left, front, stageTwo);  // THIS CALLS YOUR CODE IN TAB "Dancer"
   
   if (!stageTwo && animating) {
     if (t < 35) {//transfer
-      showDancer(left, t / 35 + 1/3, right, front);
+      showDancer(left, t / 35 + 1/3, right, front, stageTwo);
     }
     else if (t < 70) {//collect
       left = P(memory, (t - 35) / 35, V(memory, target));
-      showDancer(left, t / 35 + 1/3, right, front);
+      showDancer(left, t / 35 + 1/3, right, front, stageTwo);
     }
     else if (t < 85) {//rotate
-      showDancer(left, 0, right, front);
+      showDancer(left, 0, right, front, stageTwo);
       front = R(front, angleChange, front, R(front)); //use angleChange in second argument
     }
     else if (t < 120) {//aim
       left = P(memory, (t - 85) / 35, V(memory, target));
-      showDancer(left, 0, right, front);
+      showDancer(left, 0, right, front, stageTwo);
     }
     else {
-      showDancer(left, 0, right, front);
+      showDancer(left, 0, right, front, stageTwo);
     }
     t++;
     if (t == 70) {
