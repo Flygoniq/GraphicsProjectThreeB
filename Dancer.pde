@@ -6,7 +6,7 @@ float pelvisHeight = 10, pelvisForward = hipRadius/2, pelvisRadius = hipRadius*1
 float hipToKnee = 56, kneeToAnkle = 46, ankleToBall = 13.6, ballToToe = 8;
 float hipAngle = PI / 30;
 
-float torsoRadius = 15, headRadius = 9, shoulderRadius = 7.5, elbowRadius = 3.75, wristRadius = 2.5, handRadius = 
+float torsoRadius = 15, headRadius = 9, shoulderRadius = 7.5, elbowRadius = 3.75, wristRadius = 2.5, handRadius = 4;
 
 void showDancer(pt LeftFoot, float transfer, pt RightFoot, vec Forward)
   {
